@@ -32,7 +32,6 @@ public abstract class AbstractCommand implements CommandExecutor {
         plugin = pl;
 
         new CreateHouseCMD(pl);
-        new CreateWorldCMD();
         new LoadHouseCMD(pl);
         new SaveTemplateCMD(pl);
     }
