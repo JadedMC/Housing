@@ -1,0 +1,14 @@
+name: Housing
+version: '${project.version}'
+main: net.jadedmc.housing.HousingPlugin
+api-version: 1.13
+
+commands:
+  createworld:
+    description: Creates an empty world.
+  savetemplate:
+    description: Saves a template.
+  createhouse:
+    description: Creates a house
+  loadhouse:
+    description: Load a house.
