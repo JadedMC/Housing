@@ -3,6 +3,7 @@ package net.jadedmc.housing.houses;
 import net.jadedmc.housing.HousingPlugin;
 import net.jadedmc.housing.houses.generator.EmptyChunkGenerator;
 import net.jadedmc.housing.houses.templates.Template;
+import net.jadedmc.housing.utils.LocationUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.codehaus.plexus.util.FileUtils;
@@ -193,7 +194,15 @@ public class House {
 
     public void unload() {
         System.out.println("Unloading House");
-        world.getPlayers().forEach(player -> player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation()));
+        world.getPlayers().forEach(player -> {
+            if(plugin.settingsManager().getConfig().getBoolean("Spawn.Set")) {
+                player.teleport(LocationUtils.getSpawn(plugin));
+            }
+            else {
+                player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+            }
+        });
+
         plugin.getServer().unloadWorld(world, false);
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
