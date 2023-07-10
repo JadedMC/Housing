@@ -6,6 +6,7 @@ import net.jadedmc.housing.houses.HouseManager;
 import net.jadedmc.housing.houses.templates.TemplateManager;
 import net.jadedmc.housing.listeners.*;
 import net.jadedmc.housing.utils.ChatUtils;
+import net.jadedmc.housing.utils.gui.GUIListeners;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +37,7 @@ public final class HousingPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerCommandPreprocessListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new GUIListeners(), this);
     }
 
     @Override
