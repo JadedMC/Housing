@@ -4,9 +4,7 @@ import net.jadedmc.housing.commands.AbstractCommand;
 import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.houses.HouseManager;
 import net.jadedmc.housing.houses.templates.TemplateManager;
-import net.jadedmc.housing.listeners.PlayerCommandPreprocessListener;
-import net.jadedmc.housing.listeners.PlayerJoinListener;
-import net.jadedmc.housing.listeners.PlayerQuitListener;
+import net.jadedmc.housing.listeners.*;
 import net.jadedmc.housing.utils.ChatUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
@@ -32,6 +30,9 @@ public final class HousingPlugin extends JavaPlugin {
         this.templateManager = new TemplateManager(this);
 
         AbstractCommand.registerCommands(this);
+
+        Bukkit.getPluginManager().registerEvents(new BlockBreakListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new BlockPlaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerCommandPreprocessListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
