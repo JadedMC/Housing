@@ -4,6 +4,7 @@ import net.jadedmc.housing.commands.AbstractCommand;
 import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.houses.HouseManager;
 import net.jadedmc.housing.houses.templates.TemplateManager;
+import net.jadedmc.housing.listeners.PlayerCommandPreprocessListener;
 import net.jadedmc.housing.listeners.PlayerJoinListener;
 import net.jadedmc.housing.listeners.PlayerQuitListener;
 import net.jadedmc.housing.utils.ChatUtils;
@@ -31,6 +32,7 @@ public final class HousingPlugin extends JavaPlugin {
         this.templateManager = new TemplateManager(this);
 
         AbstractCommand.registerCommands(this);
+        Bukkit.getPluginManager().registerEvents(new PlayerCommandPreprocessListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         Bukkit.getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }

@@ -154,6 +154,14 @@ public class House {
         });
     }
 
+    public boolean isMember(Player player) {
+        if(player.getUniqueId().toString().equals(ownerUUID)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean loaded() {
         return loaded;
     }
