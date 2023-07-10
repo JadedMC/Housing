@@ -25,17 +25,6 @@ public class LoadHouseCMD extends AbstractCommand {
 
         UUID houseUUID = UUID.fromString(args[0]);
         House house = plugin.houseManager().load(houseUUID);
-
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            while(!house.loaded()) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            plugin.getServer().getScheduler().runTask(plugin, () -> player.teleport(house.world().getSpawnLocation()));
-        });
+        house.visit(player);
     }
 }

@@ -159,7 +159,6 @@ public class House {
     }
 
     public void save() {
-        System.out.println("Saving House");
         world.save();
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
@@ -193,7 +192,7 @@ public class House {
     }
 
     public void unload() {
-        System.out.println("Unloading House");
+        // Force all remaining players to leave.
         world.getPlayers().forEach(player -> {
             if(plugin.settingsManager().getConfig().getBoolean("Spawn.Set")) {
                 player.teleport(LocationUtils.getSpawn(plugin));
@@ -203,19 +202,21 @@ public class House {
             }
         });
 
+        // Unloads the world.
         plugin.getServer().unloadWorld(world, false);
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            // Wait until the house is saved.
             while(!saved) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             }
 
+            // Delete the world folder.
             try {
-                System.out.println("Deleting House World");
                 FileUtils.deleteDirectory(world.getWorldFolder());
             }
             catch (IOException exception) {
@@ -233,6 +234,23 @@ public class House {
         float pitch = (float) Double.parseDouble(location[4]);
 
         return new Location(world, x, y, z, yaw, pitch);
+    }
+
+    public void visit(Player player) {
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
+            while(!loaded) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                player.teleport(spawnLocation());
+                player.setGameMode(GameMode.CREATIVE);
+            });
+        });
     }
 
     public World world() {
