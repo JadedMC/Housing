@@ -51,15 +51,6 @@ public class MySQL {
 
             // Create tables if they do not exist.
             try {
-                /*
-                PreparedStatement housingTemplates = connection.prepareStatement("CREATE TABLE IF NOT EXISTS housing_templates (" +
-                        "templateID VARCHAR(36) NOT NULL, " +
-                        "templateFile MEDIUMBLOB NOT NULL, " +
-                        "spawn VARCHAR(36) NOT NULL, " +
-                        "PRIMARY KEY (templateID));");
-                housingTemplates.execute();
-
-                 */
                 PreparedStatement housingTemplates = connection.prepareStatement("CREATE TABLE IF NOT EXISTS housing_templates (" +
                         "templateID VARCHAR(36) NOT NULL, " +
                         "houseUUID VARCHAR(36) NOT NULL, " +
@@ -78,6 +69,18 @@ public class MySQL {
                         "houseFile MEDIUMBLOB NOT NULL, " +
                         "PRIMARY KEY (houseUUID));");
                 housingFiles.execute();
+
+                PreparedStatement houseSettings = connection.prepareStatement("CREATE TABLE IF NOT EXISTS housing_house_settings (" +
+                        "houseUUID VARCHAR(36) NOT NULL, " +
+                        "houseName VARCHAR(36) NOT NULL, " +
+                        "houseIcon VARCHAR(36) NOT NULL, " +
+                        "visibility VARCHAR(24) NOT NULL, " +
+                        "weather VARCHAR(24) NOT NULL, " +
+                        "time BIGINT NOT NULL, " +
+                        "gameMode VARCHAR(24) NOT NULL, " +
+                        "pvp BOOLEAN NOT NULL, " +
+                        "PRIMARY KEY (houseUUID));");
+                houseSettings.execute();
             }
             catch (SQLException exception) {
                 exception.printStackTrace();

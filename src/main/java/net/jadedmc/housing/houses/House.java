@@ -19,6 +19,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+/**
+ * Represents a player's private world.
+ */
 public class House {
     private final HousingPlugin plugin;
     private final UUID houseUUID;
@@ -27,11 +30,28 @@ public class House {
     private boolean loaded = false;
     private boolean saved = false;
     private String spawn;
+    
+    
+    // House Settings
+    private GameMode defaultGameMode = GameMode.CREATIVE;
+    private Material icon = Material.CRAFTING_TABLE;
+    private String name = "House";
+    private boolean pvp = false;
+    private long time = 6000;
+    private HouseVisibility visibility = HouseVisibility.PUBLIC;
+    private HouseWeather weather = HouseWeather.CLEAR;
 
+    /**
+     * Creates a new house using a specified template.
+     * @param plugin Instance of the plugin.
+     * @param templateID ID of the template being used.
+     * @param owner Owner of the house.
+     */
     public House(HousingPlugin plugin, String templateID, Player owner) {
         this.plugin = plugin;
         this.houseUUID = UUID.randomUUID();
         this.ownerUUID = owner.getUniqueId().toString();
+        this.name = owner.getName() + "'s House";
 
         Template template = plugin.templateManager().template(templateID);
         this.spawn = template.spawn();
@@ -74,8 +94,6 @@ public class House {
 
                     this.loaded = true;
                 });
-
-
             }
             catch (IOException exception) {
                 exception.printStackTrace();
@@ -103,6 +121,22 @@ public class House {
                     if(resultSet.next()) {
                         ownerUUID = resultSet.getString("ownerUUID");
                         spawn = resultSet.getString("spawn");
+                    }
+                }
+
+                {
+                    PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("SELECT * FROM housing_house_settings WHERE houseUUID = ? LIMIT 1");
+                    statement.setString(1, houseUUID.toString());
+                    ResultSet resultSet = statement.executeQuery();
+
+                    if(resultSet.next()) {
+                        name = resultSet.getString("houseName");
+                        icon = Material.valueOf(resultSet.getString("houseIcon"));
+                        time = resultSet.getLong("time");
+                        defaultGameMode = GameMode.valueOf(resultSet.getString("gameMode"));
+                        pvp = resultSet.getBoolean("pvp");
+                        visibility = HouseVisibility.valueOf(resultSet.getString("visibility"));
+                        weather = HouseWeather.valueOf(resultSet.getString("weather"));
                     }
                 }
 
@@ -137,7 +171,7 @@ public class House {
 
                             // Set time and weather.
                             world.setStorm(false);
-                            world.setTime(6000);
+                            world.setTime(time);
 
                             // Set world border.
                             WorldBorder worldBorder = world.getWorldBorder();
@@ -155,16 +189,18 @@ public class House {
         });
     }
 
+    /**
+     * Check if a player is a member of the house.
+     * Returns true for both members and the owner.
+     * @param player Player to check.
+     * @return Whether the player is a house member.
+     */
     public boolean isMember(Player player) {
         if(player.getUniqueId().toString().equals(ownerUUID)) {
             return true;
         }
 
         return false;
-    }
-
-    public boolean loaded() {
-        return loaded;
     }
 
     public void save() {
@@ -176,6 +212,7 @@ public class House {
                 File regionFile = new File(regionFolder, "r.0.0.mca");
                 InputStream inputStream = Files.newInputStream(regionFile.toPath());
 
+                // Saves the house default data.
                 {
                     PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("REPLACE INTO housing_houses (houseUUID,ownerUUID,spawn) VALUES (?,?,?)");
                     statement.setString(1, houseUUID.toString());
@@ -184,10 +221,25 @@ public class House {
                     statement.executeUpdate();
                 }
 
+                // Saves the house world file.
                 {
                     PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("REPLACE INTO housing_house_files (houseUUID,houseFile) VALUES (?,?)");
                     statement.setString(1, houseUUID.toString());
                     statement.setBlob(2, inputStream);
+                    statement.executeUpdate();
+                }
+
+                // Saves the house settings.
+                {
+                    PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("REPLACE INTO housing_house_settings (houseUUID,houseName,houseIcon,visibility,weather,time,gameMode,pvp) VALUES (?,?,?,?,?,?,?,?)");
+                    statement.setString(1, houseUUID.toString());
+                    statement.setString(2, name);
+                    statement.setString(3, icon.toString());
+                    statement.setString(4, visibility.toString());
+                    statement.setString(5, weather.toString());
+                    statement.setLong(6, world.getTime());
+                    statement.setString(7, defaultGameMode.toString());
+                    statement.setBoolean(8, pvp);
                     statement.executeUpdate();
                 }
 
@@ -198,6 +250,17 @@ public class House {
             }
 
         });
+    }
+
+    public Location spawnLocation() {
+        String[] location = spawn.split(",");
+        double x = Double.parseDouble(location[0]);
+        double y = Double.parseDouble(location[1]);
+        double z = Double.parseDouble(location[2]);
+        float yaw = (float) Double.parseDouble(location[3]);
+        float pitch = (float) Double.parseDouble(location[4]);
+
+        return new Location(world, x, y, z, yaw, pitch);
     }
 
     public void unload() {
@@ -232,17 +295,6 @@ public class House {
                 exception.printStackTrace();
             }
         });
-    }
-
-    public Location spawnLocation() {
-        String[] location = spawn.split(",");
-        double x = Double.parseDouble(location[0]);
-        double y = Double.parseDouble(location[1]);
-        double z = Double.parseDouble(location[2]);
-        float yaw = (float) Double.parseDouble(location[3]);
-        float pitch = (float) Double.parseDouble(location[4]);
-
-        return new Location(world, x, y, z, yaw, pitch);
     }
 
     public void visit(Player player) {
