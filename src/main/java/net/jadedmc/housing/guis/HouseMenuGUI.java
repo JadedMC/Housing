@@ -3,21 +3,24 @@ package net.jadedmc.housing.guis;
 import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.utils.gui.CustomGUI;
 import net.jadedmc.housing.utils.item.ItemBuilder;
+import net.jadedmc.housing.utils.item.SkullBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 public class HouseMenuGUI extends CustomGUI {
-    private final House house;
-    private final Player player;
+
+    public HouseMenuGUI(Player player) {
+        super(54, "Housing Menu");
+        addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
+
+
+    }
 
     public HouseMenuGUI(House house, Player player) {
         super(54, "Housing Menu");
         addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
-
-        this.house = house;
-        this.player = player;
 
         ItemStack membersItem = new ItemBuilder(Material.PLAYER_HEAD)
                 .setDisplayName("&a&lMembers")
@@ -27,7 +30,7 @@ public class HouseMenuGUI extends CustomGUI {
         ItemStack settingsItem = new ItemBuilder(Material.COMPARATOR)
                 .setDisplayName("&a&lSettings")
                 .build();
-        setItem(28, settingsItem, (p,a) -> new HouseMenuSettingsGUI().open(p));
+        setItem(28, settingsItem, (p,a) -> new HouseMenuSettingsGUI(house, player).open(p));
 
         ItemStack bannersItem = new ItemBuilder(Material.WHITE_BANNER)
                 .setDisplayName("&a&lBanners")
@@ -48,12 +51,37 @@ public class HouseMenuGUI extends CustomGUI {
                 .setDisplayName("&a&lFurniture")
                 .build();
         setItem(25, furnitureItem);
+
+        ItemStack craftingTableItem = new ItemBuilder(Material.CRAFTING_TABLE)
+                .setDisplayName("&a&lCrafting Table")
+                .build();
+        setItem(38, craftingTableItem, (p,a) -> p.openWorkbench(p.getLocation(), true));
+
+        ItemStack anvilItem = new ItemBuilder(Material.ANVIL)
+                .setDisplayName("&a&lAnvil")
+                .build();
+        setItem(39, anvilItem, (p,a) -> p.openAnvil(p.getLocation(), true));
+
+        ItemStack smithingTableItem = new ItemBuilder(Material.SMITHING_TABLE)
+                .setDisplayName("&a&lSmithing Table")
+                .build();
+        setItem(40, smithingTableItem, (p,a) -> p.openSmithingTable(p.getLocation(), true));
+
+        ItemStack loomItem = new ItemBuilder(Material.LOOM)
+                .setDisplayName("&a&lLoom")
+                .build();
+        setItem(41, loomItem, (p,a) -> p.openLoom(p.getLocation(), true));
+
+        ItemStack cartographyTableItem = new ItemBuilder(Material.CARTOGRAPHY_TABLE)
+                .setDisplayName("&a&lCartography Table")
+                .build();
+        setItem(42, cartographyTableItem, (p,a) -> p.openCartographyTable(p.getLocation(), true));
     }
 
-    private class HouseMenuSettingsGUI extends CustomGUI {
-        public HouseMenuSettingsGUI() {
+    private static class HouseMenuSettingsGUI extends CustomGUI {
+        public HouseMenuSettingsGUI(House house, Player player) {
             super(54, "Housing Menu - Settings");
-            addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
+            addFiller(1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
 
             ItemStack iconItem = new ItemBuilder(Material.CRAFTING_TABLE)
                     .setDisplayName("&a&lIcon")
@@ -100,6 +128,8 @@ public class HouseMenuGUI extends CustomGUI {
                     .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                     .build();
             setItem(34, pvpItem);
+
+            setItem(0, new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=").setDisplayName("&cBack").build(), (p, a) -> new HouseMenuGUI(house, player).open(p));
         }
     }
 }
