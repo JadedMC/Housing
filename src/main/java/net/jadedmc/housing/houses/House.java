@@ -4,6 +4,7 @@ import net.jadedmc.housing.HousingPlugin;
 import net.jadedmc.housing.houses.generator.EmptyChunkGenerator;
 import net.jadedmc.housing.houses.templates.Template;
 import net.jadedmc.housing.utils.LocationUtils;
+import net.jadedmc.housing.utils.item.ItemBuilder;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.codehaus.plexus.util.FileUtils;
@@ -257,6 +258,9 @@ public class House {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
                 player.teleport(spawnLocation());
                 player.setGameMode(GameMode.CREATIVE);
+
+                player.getInventory().clear();
+                player.getInventory().setItem(8, new ItemBuilder(Material.NETHER_STAR).setDisplayName("&a&lHousing Menu").build());
             });
         });
     }

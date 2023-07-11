@@ -10,3 +10,5 @@ commands:
     description: Creates a house
   loadhouse:
     description: Load a house.
+  menu:
+    description: Opens the house menu.

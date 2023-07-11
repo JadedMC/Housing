@@ -33,6 +33,7 @@ public abstract class AbstractCommand implements CommandExecutor {
 
         new CreateHouseCMD(pl);
         new LoadHouseCMD(pl);
+        new MenuCMD(pl);
         new SaveTemplateCMD(pl);
     }
 
