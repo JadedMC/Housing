@@ -35,6 +35,7 @@ public abstract class AbstractCommand implements CommandExecutor {
         new LoadHouseCMD(pl);
         new MenuCMD(pl);
         new SaveTemplateCMD(pl);
+        new SetNameCMD(pl);
     }
 
     /**

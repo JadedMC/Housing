@@ -12,3 +12,5 @@ commands:
     description: Load a house.
   menu:
     description: Opens the house menu.
+  setname:
+    description: Set the name of a house.
