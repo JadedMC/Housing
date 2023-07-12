@@ -5,6 +5,7 @@ import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.houses.HouseManager;
 import net.jadedmc.housing.houses.templates.TemplateManager;
 import net.jadedmc.housing.listeners.*;
+import net.jadedmc.housing.player.HousingPlayerManager;
 import net.jadedmc.housing.utils.ChatUtils;
 import net.jadedmc.housing.utils.gui.GUIListeners;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
@@ -16,6 +17,7 @@ public final class HousingPlugin extends JavaPlugin {
     private MySQL mySQL;
     private SettingsManager settingsManager;
     private TemplateManager templateManager;
+    private HousingPlayerManager housingPlayerManager;
 
     @Override
     public void onEnable() {
@@ -29,6 +31,7 @@ public final class HousingPlugin extends JavaPlugin {
 
         this.houseManager = new HouseManager(this);
         this.templateManager = new TemplateManager(this);
+        this.housingPlayerManager = new HousingPlayerManager(this);
 
         AbstractCommand.registerCommands(this);
 
@@ -52,6 +55,10 @@ public final class HousingPlugin extends JavaPlugin {
 
     public HouseManager houseManager() {
         return houseManager;
+    }
+
+    public HousingPlayerManager housingPlayerManager() {
+        return housingPlayerManager;
     }
 
     public MySQL mySQL() {

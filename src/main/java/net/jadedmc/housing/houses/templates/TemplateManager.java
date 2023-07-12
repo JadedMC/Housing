@@ -5,6 +5,7 @@ import net.jadedmc.housing.HousingPlugin;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,5 +83,13 @@ public class TemplateManager {
         }
 
         return null;
+    }
+
+    /**
+     * Get all currently loaded templates.
+     * @return All templates.
+     */
+    public Collection<Template> templates() {
+        return loadedTemplates.values();
     }
 }

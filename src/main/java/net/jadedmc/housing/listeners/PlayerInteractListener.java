@@ -1,7 +1,7 @@
 package net.jadedmc.housing.listeners;
 
 import net.jadedmc.housing.HousingPlugin;
-import net.jadedmc.housing.guis.HouseMenuGUI;
+import net.jadedmc.housing.guis.HousingMenuGUI;
 import net.jadedmc.housing.houses.House;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
@@ -44,6 +44,7 @@ public class PlayerInteractListener implements Listener {
                 House house = plugin.houseManager().house(player.getWorld());
 
                 if(house == null) {
+                    new HousingMenuGUI(plugin, player).open(player);
                     return;
                 }
 
@@ -51,7 +52,7 @@ public class PlayerInteractListener implements Listener {
                     return;
                 }
 
-                new HouseMenuGUI(house, player).open(player);
+                new HousingMenuGUI(house, player).open(player);
             }
         }
     }

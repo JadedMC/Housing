@@ -1,6 +1,9 @@
 package net.jadedmc.housing.guis;
 
+import net.jadedmc.housing.HousingPlugin;
 import net.jadedmc.housing.houses.House;
+import net.jadedmc.housing.houses.HouseMetaData;
+import net.jadedmc.housing.player.HousingPlayer;
 import net.jadedmc.housing.utils.gui.CustomGUI;
 import net.jadedmc.housing.utils.item.ItemBuilder;
 import net.jadedmc.housing.utils.item.SkullBuilder;
@@ -9,16 +12,41 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
-public class HouseMenuGUI extends CustomGUI {
+import java.util.UUID;
 
-    public HouseMenuGUI(Player player) {
+public class HousingMenuGUI extends CustomGUI {
+
+    public HousingMenuGUI(HousingPlugin plugin, Player player) {
         super(54, "Housing Menu");
         addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
 
+        HousingPlayer housingPlayer = plugin.housingPlayerManager().getPlayer(player);
 
+        if(housingPlayer.houses().size() > 0) {
+            int slot = 19;
+            for(HouseMetaData houseMetaData : housingPlayer.houses().values()) {
+                ItemStack houseItem = new ItemBuilder(houseMetaData.icon())
+                        .setDisplayName("&a" + houseMetaData.name())
+                        .addLore("")
+                        .addLore("&aClick to teleport")
+                        .build();
+                setItem(slot, houseItem, (p,a) -> {
+                    UUID houseUUID = UUID.fromString(houseMetaData.uuid());
+                    House house = plugin.houseManager().load(houseUUID);
+                    house.visit(p);
+                });
+                slot++;
+            }
+        }
+        else {
+            ItemStack createHouseItem = new ItemBuilder(Material.GREEN_TERRACOTTA)
+                    .setDisplayName("&a&lCreate a House")
+                    .build();
+            setItem(22, createHouseItem, (p,a) -> new CreateHouseGUI(plugin).open(p));
+        }
     }
 
-    public HouseMenuGUI(House house, Player player) {
+    public HousingMenuGUI(House house, Player player) {
         super(54, "Housing Menu");
         addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
 
@@ -129,7 +157,7 @@ public class HouseMenuGUI extends CustomGUI {
                     .build();
             setItem(34, pvpItem);
 
-            setItem(0, new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=").setDisplayName("&cBack").build(), (p, a) -> new HouseMenuGUI(house, player).open(p));
+            setItem(0, new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=").setDisplayName("&cBack").build(), (p, a) -> new HousingMenuGUI(house, player).open(p));
         }
     }
 }

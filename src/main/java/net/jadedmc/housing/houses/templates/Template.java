@@ -1,6 +1,7 @@
 package net.jadedmc.housing.houses.templates;
 
 import net.jadedmc.housing.HousingPlugin;
+import org.bukkit.Material;
 
 import java.io.InputStream;
 import java.sql.PreparedStatement;
@@ -11,6 +12,8 @@ public class Template {
     private final HousingPlugin plugin;
     private final String templateID;
     private final String houseUUID;
+    private String name = "Template";
+    private Material icon = Material.BARRIER;
     private String spawn;
 
     public Template(HousingPlugin plugin, String templateID, String houseUUID) {
@@ -20,18 +23,39 @@ public class Template {
 
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
-                PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("SELECT * FROM housing_houses WHERE houseUUID = ? LIMIT 1");
-                statement.setString(1, houseUUID.toString());
-                ResultSet resultSet = statement.executeQuery();
+                {
+                    PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("SELECT * FROM housing_houses WHERE houseUUID = ? LIMIT 1");
+                    statement.setString(1, houseUUID);
+                    ResultSet resultSet = statement.executeQuery();
 
-                if(resultSet.next()) {
-                    spawn = resultSet.getString("spawn");
+                    if(resultSet.next()) {
+                        spawn = resultSet.getString("spawn");
+                    }
                 }
+                {
+                    PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("SELECT * FROM housing_house_settings WHERE houseUUID = ? LIMIT 1");
+                    statement.setString(1, houseUUID);
+                    ResultSet resultSet = statement.executeQuery();
+
+                    if(resultSet.next()) {
+                        name = resultSet.getString("houseName");
+                        icon = Material.valueOf(resultSet.getString("houseIcon"));
+                    }
+                }
+
             }
             catch (SQLException exception) {
                 exception.printStackTrace();
             }
         });
+    }
+
+    public Material icon() {
+        return icon;
+    }
+
+    public String id() {
+        return templateID;
     }
 
     public InputStream inputStream() {
@@ -49,6 +73,10 @@ public class Template {
         }
 
         return null;
+    }
+
+    public String name() {
+        return name;
     }
 
     public String spawn() {

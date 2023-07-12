@@ -1,7 +1,7 @@
 package net.jadedmc.housing.commands;
 
 import net.jadedmc.housing.HousingPlugin;
-import net.jadedmc.housing.guis.HouseMenuGUI;
+import net.jadedmc.housing.guis.HousingMenuGUI;
 import net.jadedmc.housing.houses.House;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +20,7 @@ public class MenuCMD extends AbstractCommand {
         House house = plugin.houseManager().house(player.getWorld());
 
         if(house == null) {
+            new HousingMenuGUI(plugin, player).open(player);
             return;
         }
 
@@ -27,6 +28,6 @@ public class MenuCMD extends AbstractCommand {
             return;
         }
 
-        new HouseMenuGUI(house, player).open(player);
+        new HousingMenuGUI(house, player).open(player);
     }
 }
