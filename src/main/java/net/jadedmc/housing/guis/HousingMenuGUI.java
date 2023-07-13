@@ -68,6 +68,15 @@ public class HousingMenuGUI extends CustomGUI {
                     .build();
             setItem(22, createHouseItem, (p,a) -> new CreateHouseGUI(plugin).open(p));
         }
+
+        if(player.hasPermission("housing.admin")) {
+            ItemStack staffHousesItem = new ItemBuilder(Material.GOLDEN_AXE)
+                    .setDisplayName("&a&lStaff Houses")
+                    .addLore("&7Various projects for specific games.")
+                    .addLore("&7Accessible to all staff members.")
+                    .build();
+            setItem(40, staffHousesItem, (p,a) -> new StaffHousesGUI(plugin).open(p));
+        }
     }
 
     public HousingMenuGUI(House house, Player player) {

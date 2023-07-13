@@ -220,6 +220,11 @@ public class House {
      * @return Whether the player is a house member.
      */
     public boolean isMember(Player player) {
+        // Gives staff members permission to use staff houses.
+        if(ownerUUID.equalsIgnoreCase("JadedMC") && player.hasPermission("housing.admin")) {
+            return true;
+        }
+
         if(player.getUniqueId().toString().equals(ownerUUID)) {
             return true;
         }
