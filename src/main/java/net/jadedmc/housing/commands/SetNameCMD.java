@@ -85,6 +85,6 @@ public class SetNameCMD extends AbstractCommand {
 
         // Update's the name.
         house.name(name);
-        ChatUtils.chat(player, "<green><bold>Housing</bold> <dark_gray>» <green>House name set to " + name + "<green>.!");
+        ChatUtils.chat(player, "<green><bold>Housing</bold> <dark_gray>» <green>House name set to " + name + "<green>!");
     }
 }
