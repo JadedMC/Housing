@@ -36,6 +36,7 @@ public abstract class AbstractCommand implements CommandExecutor {
         new MenuCMD(pl);
         new SaveTemplateCMD(pl);
         new SetNameCMD(pl);
+        new TransferCMD(pl);
     }
 
     /**

@@ -14,3 +14,5 @@ commands:
     description: Opens the house menu.
   setname:
     description: Set the name of a house.
+  transfer:
+    description: Transfer a house to a new owner.

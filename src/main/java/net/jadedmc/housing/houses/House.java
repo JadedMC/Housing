@@ -320,6 +320,14 @@ public class House {
         player.setTotalExperience(0);
     }
 
+    /**
+     * Transfer's the house to a new owner.
+     * @param newOwnerUUID New owner's uuid,
+     */
+    public void transfer(String newOwnerUUID) {
+        ownerUUID = newOwnerUUID;
+    }
+
     public void unload() {
         // Force all remaining players to leave.
         world.getPlayers().forEach(player -> {
