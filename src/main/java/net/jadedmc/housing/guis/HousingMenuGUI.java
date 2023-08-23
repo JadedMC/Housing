@@ -85,6 +85,7 @@ public class HousingMenuGUI extends CustomGUI {
 
         ItemStack membersItem = new ItemBuilder(Material.PLAYER_HEAD)
                 .setDisplayName("&a&lMembers")
+                .addLore("&cComing Soon")
                 .build();
         setItem(19, membersItem);
 
@@ -95,21 +96,25 @@ public class HousingMenuGUI extends CustomGUI {
 
         ItemStack bannersItem = new ItemBuilder(Material.WHITE_BANNER)
                 .setDisplayName("&a&lBanners")
+                .addLore("&cComing Soon")
                 .build();
         setItem(22, bannersItem);
 
         ItemStack paintingsItem = new ItemBuilder(Material.PAINTING)
                 .setDisplayName("&a&lPaintings")
+                .addLore("&cComing Soon")
                 .build();
         setItem(23, paintingsItem);
 
         ItemStack headsItem = new ItemBuilder(Material.PLAYER_HEAD)
                 .setDisplayName("&a&lHeads")
+                .addLore("&cComing Soon")
                 .build();
         setItem(24, headsItem);
 
         ItemStack furnitureItem = new ItemBuilder(Material.OAK_STAIRS)
                 .setDisplayName("&a&lFurniture")
+                .addLore("&cComing Soon")
                 .build();
         setItem(25, furnitureItem);
 
@@ -167,28 +172,33 @@ public class HousingMenuGUI extends CustomGUI {
             ItemStack weatherItem = new ItemBuilder(Material.WATER_BUCKET)
                     .setDisplayName("&a&lWeather")
                     .addLore("&7Weather: &aClear")
+                    .addLore("&cComing Soon")
                     .build();
             setItem(22, weatherItem);
 
             ItemStack timeItem = new ItemBuilder(Material.CLOCK)
                     .setDisplayName("&a&lTime")
+                    .addLore("&cComing Soon")
                     .build();
             setItem(23, timeItem);
 
             ItemStack gameRulesItem = new ItemBuilder(Material.COMPARATOR)
                     .setDisplayName("&a&lGame Rules")
+                    .addLore("&cComing Soon")
                     .build();
             setItem(24, gameRulesItem);
 
             ItemStack defaultGameModeItem = new ItemBuilder(Material.GRASS_BLOCK)
                     .setDisplayName("&a&lDefault Game Mode")
                     .addLore("&7Mode: &aCreative")
+                    .addLore("&cComing Soon")
                     .build();
             setItem(25, defaultGameModeItem);
 
             ItemStack pvpItem = new ItemBuilder(Material.IRON_SWORD)
                     .setDisplayName("&a&lPvP")
                     .addLore("&7PvP: &aEnabled")
+                    .addLore("&cComing Soon")
                     .addFlag(ItemFlag.HIDE_ATTRIBUTES)
                     .build();
             setItem(34, pvpItem);
