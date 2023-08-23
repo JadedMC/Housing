@@ -24,6 +24,6 @@ public class PlayerQuitListener implements Listener {
             return;
         }
 
-        plugin.houseManager().unload(house);
+        house.removePlayer(player);
     }
 }

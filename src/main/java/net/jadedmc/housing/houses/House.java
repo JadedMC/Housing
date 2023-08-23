@@ -300,6 +300,26 @@ public class House {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
+    public void removePlayer(Player player) {
+        if(world.getPlayers().size() == 1) {
+            plugin.houseManager().unload(this);
+            return;
+        }
+
+        if(plugin.settingsManager().getConfig().getBoolean("Spawn.Set")) {
+            player.teleport(LocationUtils.getSpawn(plugin));
+        }
+        else {
+            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+        }
+
+        player.setGameMode(GameMode.ADVENTURE);
+        player.setMaxHealth(20);
+        player.setHealth(20);
+        player.setFoodLevel(20);
+        player.setTotalExperience(0);
+    }
+
     public void unload() {
         // Force all remaining players to leave.
         world.getPlayers().forEach(player -> {
