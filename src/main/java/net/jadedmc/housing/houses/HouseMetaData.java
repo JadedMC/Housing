@@ -16,6 +16,7 @@ public class HouseMetaData {
     private final String uuid;
     private Material icon = Material.CRAFTING_TABLE;
     private String name = "House";
+    private boolean loaded = false;
 
 
     /**
@@ -37,6 +38,14 @@ public class HouseMetaData {
      */
     public Material icon() {
         return icon;
+    }
+
+    /**
+     * Get if the data has been loaded yet.
+     * @return Whether the data was loaded.
+     */
+    public boolean loaded() {
+        return loaded;
     }
 
     /**
@@ -65,6 +74,8 @@ public class HouseMetaData {
             catch (SQLException exception) {
                 exception.printStackTrace();
             }
+
+            loaded = true;
         });
     }
 

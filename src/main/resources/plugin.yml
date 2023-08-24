@@ -19,3 +19,5 @@ commands:
   leave:
     description: Leave a house.
     aliases: [l]
+  visit:
+    description: Visit another player's house.

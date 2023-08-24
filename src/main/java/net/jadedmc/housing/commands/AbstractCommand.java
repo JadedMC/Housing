@@ -38,6 +38,7 @@ public abstract class AbstractCommand implements CommandExecutor {
         new SaveTemplateCMD(pl);
         new SetNameCMD(pl);
         new TransferCMD(pl);
+        new VisitCMD(pl);
     }
 
     /**
