@@ -16,3 +16,6 @@ commands:
     description: Set the name of a house.
   transfer:
     description: Transfer a house to a new owner.
+  leave:
+    description: Leave a house.
+    aliases: [l]
