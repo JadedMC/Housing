@@ -26,11 +26,11 @@ public class PlayerCommandPreprocessListener implements Listener {
         Player player = event.getPlayer();
         House house = plugin.houseManager().house(player.getWorld());
 
-        if(house == null) {
-            if(player.hasPermission("housing.admin")) {
-                return;
-            }
+        if(player.hasPermission("housing.admin")) {
+            return;
+        }
 
+        if(house == null) {
             event.setCancelled(true);
             ChatUtils.chat(player, "<red><bold>Error</bold> <dark_gray>» <red>You can only use that command in your own house!");
             return;
