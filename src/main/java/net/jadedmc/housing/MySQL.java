@@ -70,6 +70,12 @@ public class MySQL {
                         "PRIMARY KEY (houseUUID));");
                 housingFiles.execute();
 
+                PreparedStatement houseEntities = connection.prepareStatement("CREATE TABLE IF NOT EXISTS housing_house_entities (" +
+                        "houseUUID VARCHAR(36) NOT NULL, " +
+                        "entitiesFile MEDIUMBLOB NOT NULL, " +
+                        "PRIMARY KEY (houseUUID));");
+                houseEntities.execute();
+
                 PreparedStatement houseSettings = connection.prepareStatement("CREATE TABLE IF NOT EXISTS housing_house_settings (" +
                         "houseUUID VARCHAR(36) NOT NULL, " +
                         "houseName VARCHAR(36) NOT NULL, " +

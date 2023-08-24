@@ -201,11 +201,29 @@ public class House {
                             WorldBorder worldBorder = world.getWorldBorder();
                             worldBorder.setCenter(new Location(world, 256, 100, 256));
                             worldBorder.setSize(512);
-
-                            this.loaded = true;
                         });
                     }
                 }
+
+                // Load house entities.
+                {
+                    PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("SELECT * FROM housing_house_entities WHERE houseUUID = ? LIMIT 1");
+                    statement.setString(1, houseUUID.toString());
+                    ResultSet resultSet = statement.executeQuery();
+
+                    if(resultSet.next()) {
+                        // Get the entities file from MySQL.
+                        Blob blob = resultSet.getBlob("entitiesFile");
+                        InputStream inputStream = blob.getBinaryStream();
+
+                        // Save the file to the server.
+                        File entitiesFolder = new File(tempWorld.getWorldFolder(), "entities");
+                        File entitiesFile = new File(entitiesFolder, "r.0.0.mca");
+                        Files.copy(inputStream, entitiesFile.toPath());
+                    }
+                }
+
+                this.loaded = true;
             }
             catch (SQLException | IOException exception) {
                 exception.printStackTrace();
@@ -256,6 +274,21 @@ public class House {
                     statement.setString(1, houseUUID.toString());
                     statement.setBlob(2, inputStream);
                     statement.executeUpdate();
+                }
+
+                // Saves the entities file.
+                {
+                    File entitiesFolder = new File(world.getWorldFolder(), "entities");
+                    File entitiesFile = new File(entitiesFolder, "r.0.0.mca");
+
+                    if(entitiesFile.exists()) {
+                        InputStream entitiesInputStream = Files.newInputStream(entitiesFile.toPath());
+
+                        PreparedStatement statement = plugin.mySQL().getConnection().prepareStatement("REPLACE INTO housing_house_entities (houseUUID,entitiesFile) VALUES (?,?)");
+                        statement.setString(1, houseUUID.toString());
+                        statement.setBlob(2, entitiesInputStream);
+                        statement.executeUpdate();
+                    }
                 }
 
                 // Saves the house settings.
