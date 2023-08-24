@@ -1,9 +1,7 @@
 package net.jadedmc.housing.commands;
 
 import net.jadedmc.housing.HousingPlugin;
-import net.jadedmc.housing.utils.LocationUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
+import net.jadedmc.housing.houses.House;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,17 +17,12 @@ public class LeaveCMD extends AbstractCommand {
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
 
-        if(plugin.settingsManager().getConfig().getBoolean("Spawn.Set")) {
-            player.teleport(LocationUtils.getSpawn(plugin));
-        }
-        else {
-            player.teleport(Bukkit.getWorlds().get(0).getSpawnLocation());
+        House house = plugin.houseManager().house(player.getWorld());
+
+        if(house == null) {
+            return;
         }
 
-        player.setGameMode(GameMode.ADVENTURE);
-        player.setMaxHealth(20);
-        player.setHealth(20);
-        player.setFoodLevel(20);
-        player.setTotalExperience(0);
+        house.removePlayer(player);
     }
 }
