@@ -21,3 +21,5 @@ commands:
     aliases: [l]
   visit:
     description: Visit another player's house.
+  houseuuid:
+    description: Find the current house UUID.

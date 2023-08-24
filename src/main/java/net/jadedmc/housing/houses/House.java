@@ -395,6 +395,10 @@ public class House {
         });
     }
 
+    public UUID uuid() {
+        return houseUUID;
+    }
+
     public void visit(Player player) {
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
             while(!loaded) {
