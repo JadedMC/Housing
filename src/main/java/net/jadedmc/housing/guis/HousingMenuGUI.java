@@ -28,6 +28,7 @@ import net.jadedmc.housing.HousingPlugin;
 import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.houses.HouseMetaData;
 import net.jadedmc.housing.player.HousingPlayer;
+import net.jadedmc.housing.utils.ChatUtils;
 import net.jadedmc.housing.utils.gui.CustomGUI;
 import net.jadedmc.housing.utils.item.ItemBuilder;
 import net.jadedmc.housing.utils.item.SkullBuilder;
@@ -57,6 +58,7 @@ public class HousingMenuGUI extends CustomGUI {
                 setItem(slot, houseItem, (p,a) -> {
                     UUID houseUUID = UUID.fromString(houseMetaData.uuid());
                     House house = plugin.houseManager().load(houseUUID);
+                    ChatUtils.chat(p, "<green>Loading world...");
                     house.visit(p);
                 });
                 slot++;

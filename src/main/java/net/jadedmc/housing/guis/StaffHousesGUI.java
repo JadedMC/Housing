@@ -27,6 +27,7 @@ package net.jadedmc.housing.guis;
 import net.jadedmc.housing.HousingPlugin;
 import net.jadedmc.housing.houses.House;
 import net.jadedmc.housing.houses.HouseMetaData;
+import net.jadedmc.housing.utils.ChatUtils;
 import net.jadedmc.housing.utils.gui.CustomGUI;
 import net.jadedmc.housing.utils.item.ItemBuilder;
 import net.jadedmc.housing.utils.item.SkullBuilder;
@@ -35,8 +36,15 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
+/**
+ * This class runs the StaffHouses GUI, which allows the player to easily visit a staff house.
+ */
 public class StaffHousesGUI extends CustomGUI {
 
+    /**
+     * Creates the GUI
+     * @param plugin Instance of the plugin.
+     */
     public StaffHousesGUI(HousingPlugin plugin) {
         super(54, "Housing Menu - Staff Houses");
         addFiller(0,1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
@@ -52,6 +60,7 @@ public class StaffHousesGUI extends CustomGUI {
                 setItem(slot, houseItem, (p,a) -> {
                     UUID houseUUID = UUID.fromString(houseMetaData.uuid());
                     House house = plugin.houseManager().load(houseUUID);
+                    ChatUtils.chat(p, "<green>Loading world...");
                     house.visit(p);
                 });
                 slot++;
@@ -66,5 +75,4 @@ public class StaffHousesGUI extends CustomGUI {
 
         setItem(0, new SkullBuilder("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjg0ZjU5NzEzMWJiZTI1ZGMwNThhZjg4OGNiMjk4MzFmNzk1OTliYzY3Yzk1YzgwMjkyNWNlNGFmYmEzMzJmYyJ9fX0=").setDisplayName("&cBack").build(), (p, a) -> new HousingMenuGUI(plugin, p).open(p));
     }
-
 }
