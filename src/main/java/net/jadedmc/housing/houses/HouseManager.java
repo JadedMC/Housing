@@ -74,6 +74,16 @@ public class HouseManager {
         return house;
     }
 
+    public House house(UUID uuid) {
+        for(House house : loadedHouses) {
+            if(house.uuid().equals(uuid)) {
+                return house;
+            }
+        }
+
+        return null;
+    }
+
     public House house(World world) {
         for(House house : loadedHouses) {
             if(house.world().equals(world)) {

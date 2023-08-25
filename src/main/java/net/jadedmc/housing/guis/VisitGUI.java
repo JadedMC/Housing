@@ -99,7 +99,16 @@ public class VisitGUI extends CustomGUI {
                         }
 
                         UUID houseUUID = UUID.fromString(houseMetaData.uuid());
-                        House house = plugin.houseManager().load(houseUUID);
+
+                        House house;
+
+                        if(plugin.houseManager().house(houseUUID) != null) {
+                            house = plugin.houseManager().house(houseUUID);
+                        }
+                        else {
+                            house = plugin.houseManager().load(houseUUID);
+                        }
+
                         p.closeInventory();
                         ChatUtils.chat(p, "<green>Loading world...");
                         house.visit(p);
