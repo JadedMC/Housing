@@ -351,6 +351,8 @@ public class House {
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setTotalExperience(0);
+        player.getInventory().clear();
+        player.getInventory().setItem(4, new ItemBuilder(Material.NETHER_STAR).setDisplayName("&a&lHousing Menu").build());
     }
 
     /**
