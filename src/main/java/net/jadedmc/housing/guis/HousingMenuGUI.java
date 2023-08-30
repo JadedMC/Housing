@@ -151,7 +151,7 @@ public class HousingMenuGUI extends CustomGUI {
             super(54, "Housing Menu - Settings");
             addFiller(1,2,3,4,5,6,7,8,45,46,47,48,49,50,51,52,53);
 
-            ItemStack iconItem = new ItemBuilder(Material.CRAFTING_TABLE)
+            ItemStack iconItem = new ItemBuilder(house.icon())
                     .setDisplayName("&a&lIcon")
                     .build();
             setItem(19, iconItem);

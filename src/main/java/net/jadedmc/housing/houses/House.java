@@ -232,6 +232,14 @@ public class House {
     }
 
     /**
+     * Gets the icon of the house.
+     * @return House icon.
+     */
+    public Material icon() {
+        return icon;
+    }
+
+    /**
      * Check if a player is a member of the house.
      * Returns true for both members and the owner.
      * @param player Player to check.
