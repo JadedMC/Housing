@@ -57,7 +57,15 @@ public class HousingMenuGUI extends CustomGUI {
                         .build();
                 setItem(slot, houseItem, (p,a) -> {
                     UUID houseUUID = UUID.fromString(houseMetaData.uuid());
-                    House house = plugin.houseManager().load(houseUUID);
+
+                    House house;
+                    if(plugin.houseManager().house(houseUUID) != null) {
+                        house = plugin.houseManager().house(houseUUID);
+                    }
+                    else {
+                        house = plugin.houseManager().load(houseUUID);
+                    }
+
                     ChatUtils.chat(p, "<green>Loading world...");
                     house.visit(p);
                 });
